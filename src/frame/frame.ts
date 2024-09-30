@@ -43,27 +43,40 @@ export default class Frame {
     this.ctx.stroke();
   }
 
-  mouseDown(nativeEvent: React.MouseEvent<HTMLCanvasElement, MouseEvent>, setStartPoint: Function, setCurrentShape: Function) {
+  mouseDown(nativeEvent: React.MouseEvent<HTMLCanvasElement, MouseEvent>, setStartPoint: Function, setCurrentShape: Function, setSelectedShape: Function) {
     let sp = (new Vector2D(nativeEvent.pageX, nativeEvent.pageY));
     setStartPoint(sp);
-    setCurrentShape(new Rectangle(sp, sp.add(new Vector2D(5, 5)), this.ctx, {}));
+    let i = this.graph.isInsideAShape(sp)
+    if(i == -1) {
+      setCurrentShape(new Rectangle(sp, sp.add(new Vector2D(5, 5)), this.ctx, {}));
+    } else {
+      setSelectedShape(this.graph.memory[i]);
+    }
   }
 
-  mouseUp(_: React.MouseEvent<HTMLCanvasElement, MouseEvent>, currentShape: Shape | null | undefined, startPoint: Vector2D | null | undefined, setCurrentShape: Function, setStartPoint: Function) {
+  mouseUp(_: React.MouseEvent<HTMLCanvasElement, MouseEvent>, currentShape: Shape | null | undefined, startPoint: Vector2D | null | undefined, setCurrentShape: Function, setStartPoint: Function, selectedShape: Shape | null | undefined, setSelectedShape: Function) {
     if(currentShape && startPoint) {
       this.graph.add(currentShape.initializedInstance!);
       setCurrentShape(null);
       setStartPoint(undefined);
+    } else if(selectedShape && startPoint) {
+      setSelectedShape(null);
+      setStartPoint(undefined);
     }
   }
 
-  mouseMove(nativeEvent: React.MouseEvent<HTMLCanvasElement, MouseEvent>, currentShape: Shape | null | undefined, startPoint: Vector2D | null | undefined) {
+  mouseMove(nativeEvent: React.MouseEvent<HTMLCanvasElement, MouseEvent>, currentShape: Shape | null | undefined, startPoint: Vector2D | null | undefined, selectedShape: Shape | null | undefined) {
+    const newPoint = new Vector2D(nativeEvent.pageX, nativeEvent.pageY);
     if(currentShape && startPoint) {
-      const newPoint = new Vector2D(nativeEvent.pageX, nativeEvent.pageY);
       currentShape.width = newPoint.distanceX(startPoint);
       currentShape.height = newPoint.distanceY(startPoint);
       this.init();
       currentShape.draw();
+    } else if(selectedShape && startPoint) {
+      selectedShape.x = newPoint.x - (0.5 * selectedShape.width);
+      selectedShape.y = newPoint.y - (0.5 * selectedShape.height);
+      this.init();
+      selectedShape.draw();
     }
   }
 
