@@ -21,6 +21,16 @@ export default class Graph {
           }
         }
       }
+      if(this.memory[i].height < 0 && this.memory[i].width > 0) {
+        if(
+          this.memory[i].x < position.x &&
+          position.x < this.memory[i].x + this.memory[i].width &&
+          this.memory[i].y > position.y &&
+          position.y > this.memory[i].y + this.memory[i].height
+        ) {
+          return i;
+        }
+      }
       if(
         this.memory[i].x < position.x &&
         position.x < this.memory[i].x + this.memory[i].width &&

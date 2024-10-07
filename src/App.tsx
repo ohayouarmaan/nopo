@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import "./App.css";
 import Vector2D from "./utilities/vector2d";
-import Rectangle from "./shapes/rectangle";
 import Frame from "./frame/frame";
 import Graph from "./utilities/graph";
 import Shape from "./shapes/shape";
