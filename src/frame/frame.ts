@@ -57,7 +57,7 @@ export default class Frame {
   mouseUp(_: React.MouseEvent<HTMLCanvasElement, MouseEvent>, currentShape: Shape | null | undefined, startPoint: Vector2D | null | undefined, setCurrentShape: Function, setStartPoint: Function, selectedShape: Shape | null | undefined, setSelectedShape: Function) {
     if(currentShape && startPoint) {
       this.graph.add(currentShape.initializedInstance!);
-      currentShape.initializedInstance?.drawShape();
+      currentShape.initializedInstance?.drawSelection();
       setCurrentShape(null);
       setStartPoint(undefined);
     } else if(selectedShape && startPoint) {

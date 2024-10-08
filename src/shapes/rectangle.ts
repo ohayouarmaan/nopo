@@ -10,7 +10,7 @@ export default class Rectangle extends Shape {
     this.register(this);
   }
 
-  drawShape() {
+  drawSelection() {
     this.ctx.strokeStyle = "cyan";
     let x_dim = this.width < 0 ? 5 : -5;
     let y_dim = this.height < 0 ? 5 : -5;
