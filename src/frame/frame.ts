@@ -63,6 +63,8 @@ export default class Frame {
     } else if(selectedShape && startPoint) {
       setSelectedShape(null);
       setStartPoint(undefined);
+    } else if(selectedShape && !startPoint) {
+      selectedShape.initializedInstance?.drawSelection();
     }
   }
 
@@ -78,6 +80,7 @@ export default class Frame {
       selectedShape.y = newPoint.y - (0.5 * selectedShape.height);
       this.init();
       selectedShape.draw();
+      selectedShape.drawSelection();
     }
   }
 
