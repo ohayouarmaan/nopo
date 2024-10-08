@@ -10,6 +10,15 @@ export default class Rectangle extends Shape {
     this.register(this);
   }
 
+  drawSelection() {
+    this.ctx.strokeStyle = "cyan";
+    let x_dim = this.width < 0 ? 5 : -5;
+    let y_dim = this.height < 0 ? 5 : -5;
+    this.debug();
+    console.log(x_dim, y_dim);
+    this.ctx.strokeRect(this.x + x_dim, this.y + y_dim, this.width - x_dim * 2, this.height - y_dim * 2);
+  }
+
   draw() {
     this.ctx.strokeStyle = this.config.borderColor || "white";
     this.debug();
